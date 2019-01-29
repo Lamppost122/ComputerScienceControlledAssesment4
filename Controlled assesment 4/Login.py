@@ -7,6 +7,7 @@ from tkinter import font  as tkfont
 from tkinter import messagebox
 from tkinter import ttk
 from SystemToolKit import *
+from Gui import *
 
 class Login(tk.Frame):
 
@@ -74,13 +75,13 @@ class Login(tk.Frame):
     def ValidateEmail(self,UserID):
         with open('data.json', 'r') as fp:
                 users = json.load(fp)
-        self.read_Email()
+        inbox = self.read_Email()
 
-##        if responce == True :
-##
-##            users[userID]["ValidEmail"] = True
-##            with open('data.json', 'w+') as fp:
-##                json.dump(users, fp)
+        for i in inbox:
+            if i.keys()[0] == str(users[UserID]["Email"]):
+                users[UserID]["ValidEmail"] = True
+                with open('data.json', 'w+') as fp:
+                    json.dump(users, fp)
 
 
     def read_Email(self):
@@ -110,12 +111,11 @@ class Login(tk.Frame):
                         msg = email.message_from_string(response_part[1])
                         email_subject = msg['subject']
                         Emails =email_subject.split("|")
-                        print Emails
-                        Data = {Emails[1]:Emails[0]}
-                        inbox.append(Data)
+                        try:
+                            Data = {Emails[1]:Emails[0]}
+                            inbox.append(Data)
+                        except:IndexError
 
-
-            print(inbox)
             return inbox
 
 
