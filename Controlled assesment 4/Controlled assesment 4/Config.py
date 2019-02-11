@@ -1,0 +1,2 @@
+CurrentUser = ""
+AccessLevel = "Player"
